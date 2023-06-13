@@ -3,7 +3,7 @@ import { Team } from '../Interfaces/teams';
 import { teamModel } from '../Interfaces/teamModel';
 import { ServiceResponse } from '../Interfaces/ServiceResponse';
 
-export default class teamService {
+export default class TeamService {
   constructor(
     private TeamModel: teamModel = new teamsModel(),
   ) { }

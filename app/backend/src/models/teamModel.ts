@@ -8,7 +8,7 @@ export default class teamsModel implements teamModel {
   async findAll(): Promise<Team[]> {
     const dbData = await this.model.findAll();
     return dbData.map(({ id, teamName }) => (
-    { id, teamName }
+      { id, teamName }
     ));
   }
 
