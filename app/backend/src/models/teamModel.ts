@@ -2,7 +2,7 @@ import team from '../database/models/teams';
 import { Team } from '../Interfaces/teams';
 import { teamModel } from '../Interfaces/teamModel';
 
-export default class teamsModel implements teamModel {
+export default class TeamsModel implements teamModel {
   private model = team;
 
   async findAll(): Promise<Team[]> {

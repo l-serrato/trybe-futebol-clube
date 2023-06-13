@@ -1,11 +1,11 @@
-import teamsModel from '../models/teamModel';
+import TeamsModel from '../models/teamModel';
 import { Team } from '../Interfaces/teams';
 import { teamModel } from '../Interfaces/teamModel';
 import { ServiceResponse } from '../Interfaces/ServiceResponse';
 
 export default class TeamService {
   constructor(
-    private TeamModel: teamModel = new teamsModel(),
+    private TeamModel: teamModel = new TeamsModel(),
   ) { }
 
   public async getAllTeams(): Promise<ServiceResponse<Team[]>> {

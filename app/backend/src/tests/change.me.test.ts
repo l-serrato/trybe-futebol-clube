@@ -4,9 +4,10 @@ import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 
 import { app } from '../app';
-import Example from '../database/models/ExampleModel';
+import Team from '../database/models/teams';
+import { teams } from './mocks/Teams.mock'
 
-import { Response } from 'superagent';
+// import { Response } from 'superagent';
 
 chai.use(chaiHttp);
 
@@ -39,7 +40,35 @@ describe('Seu teste', () => {
   //   expect(...)
   // });
 
-  it('Seu sub-teste', () => {
-    expect(false).to.be.eq(true);
+  it('should return all teams', async function() {
+    sinon.stub(Team, 'findAll').resolves(teams as any);
+
+    const { status, body } = await chai.request(app).get('/teams');
+
+    expect(status).to.equal(200);
+    expect(body).to.deep.equal(teams);
   });
+
+  it('should return a book by id', async function() {
+    sinon.stub(Team, 'findOne').resolves(teams as any);
+
+    const { status, body } = await chai.request(app).get('/teams/1');
+
+    expect(status).to.equal(200);
+    expect(body).to.deep.equal(teams);
+  });
+
+  it('should return not found if the book doesn\'t exists', async function() {
+    sinon.stub(Team, 'findOne').resolves(null);
+
+    const { status, body } = await chai.request(app).get('/teams/1');
+
+    expect(status).to.equal(404);
+    expect(body.message).to.equal('Book 1 not found');
+  });
+
+
+ /*  it('Seu sub-teste', () => {
+    expect(false).to.be.eq(true);
+  }); */
 });
