@@ -11,7 +11,7 @@ class Team extends Model<InferAttributes<Team>,
 InferCreationAttributes<Team>> {
   declare id: CreationOptional<number>;
 
-  declare team_name: string;
+  declare teamName: string;
 }
 
 Team.init({
@@ -21,7 +21,7 @@ Team.init({
     primaryKey: true,
     autoIncrement: true,
   },
-  team_name: {
+  teamName: {
     type: DataTypes.STRING(30),
     allowNull: false,
   },
