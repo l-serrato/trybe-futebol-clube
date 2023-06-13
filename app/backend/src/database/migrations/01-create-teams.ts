@@ -2,7 +2,7 @@ import { Model, QueryInterface, DataTypes } from 'sequelize';
 import { Team } from '../../Interfaces/teams';
 export default {
   up(queryInterface: QueryInterface) {
-    return queryInterface.createTable<Model<Team>>('books', {
+    return queryInterface.createTable<Model<Team>>('teams', {
       id: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -12,6 +12,7 @@ export default {
       teamName: {
         type: DataTypes.STRING,
         allowNull: false,
+        field: 'team_name',
       },
     });
   },
