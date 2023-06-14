@@ -33,4 +33,8 @@ const teams = [
   },
 ]
 
-export { teams, };
+const team1 = {
+  id: 1
+}
+
+export { teams, team1 };
