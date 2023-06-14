@@ -6,10 +6,11 @@ const invalidField = 'Invalid email or password-401';
 
 const loginValidator = (req: Request, res: Response, next: NextFunction) => {
   const validadeFields = joi.object({
-    email: joi.string().required().messages({
-      'string.empty': reqMessage,
-      'string.email': invalidField,
-    }),
+    email: joi.string().email().required().regex(/.*@.*\.com$/)
+      .messages({
+        'string.empty': reqMessage,
+        'string.email': invalidField,
+      }),
     password: joi.string().required().min(7).messages({
       'string.empty': reqMessage,
       'string.min': invalidField,
