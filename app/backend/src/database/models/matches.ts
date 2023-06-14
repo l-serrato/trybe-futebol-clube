@@ -6,6 +6,7 @@ import {
   CreationOptional,
 } from 'sequelize';
 import db from '.';
+import Team from './teams';
 
 class Match extends Model<InferAttributes<Match>,
 InferCreationAttributes<Match>> {
@@ -30,19 +31,19 @@ Match.init({
     autoIncrement: true,
   },
   homeTeamId: {
-    type: DataTypes.NUMBER,
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
   homeTeamGoals: {
-    type: DataTypes.NUMBER,
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
   awayTeamId: {
-    type: DataTypes.NUMBER,
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
   awayTeamGoals: {
-    type: DataTypes.NUMBER,
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
   inProgress: {
@@ -52,6 +53,11 @@ Match.init({
   sequelize: db,
   modelName: 'matches',
   timestamps: false,
+  underscored: true,
 });
+
+Match.belongsTo(Team, { foreignKey: 'homeTeamId', as: 'homeTeam' });
+Match.belongsTo(Team, { foreignKey: 'awayTeamId', as: 'awayTeam' });
+Team.hasMany(Match, { foreignKey: 'id', as: 'matches' });
 
 export default Match;
