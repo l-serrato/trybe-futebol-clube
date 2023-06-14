@@ -8,7 +8,7 @@ export default class MatchController {
   ) { }
 
   public async getAllMatches(_req: Request, res: Response) {
-    const serviceResponse = await this.MatchesService.getAllMatches();
+    const serviceResponse = await this.MatchesService.findAll();
     res.status(200).json(serviceResponse.data);
   }
 
