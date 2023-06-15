@@ -27,6 +27,16 @@ class MatchService {
     const matches = await Matches.findAll({ ...config, where: { inProgress: listInProgress } });
     return { status: 200, data: matches };
   };
+
+  public setFinish = async (id: string) => {
+    await Matches.update({ inProgress: false }, { where: { id } });
+    return { status: 200, message: '"Finished"' };
+  };
+
+  public updatedMatch = async (id: string, homeTeamGoals: number, awayTeamGoals: number) => {
+    await Matches.update({ homeTeamGoals, awayTeamGoals }, { where: { id } });
+    return { status: 200, message: '"Updated"' };
+  };
 }
 
 export default MatchService;
