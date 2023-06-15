@@ -12,12 +12,4 @@ export default class MatchesModel implements matchModel {
         { id, homeTeamId, homeTeamGoals, awayTeamId, awayTeamGoals, inProgress }
       ));
   }
-
-  /*  async findById(id: Match['id']): Promise<Match | null> {
-    const dbData = await this.model.findByPk(id);
-    if (dbData == null) return null;
-
-    const { MatchName }: Match = dbData;
-    return { id, MatchName };
-  } */
 }
