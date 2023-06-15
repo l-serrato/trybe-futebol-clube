@@ -32,4 +32,13 @@ export default class MatchController {
       .updatedMatch(id, homeTeamGoals, awayTeamGoals);
     res.status(status).json({ message });
   };
+
+  addMatch = async (req:Request, res: Response) => {
+    const { status, data, message } = await this.MatchesService.addMatch(req.body);
+
+    if (message) {
+      return res.status(status).json({ message });
+    }
+    res.status(status).json(data);
+  };
 }

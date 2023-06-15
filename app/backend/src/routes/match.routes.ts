@@ -7,6 +7,7 @@ const matchController = new MatchController();
 const router = Router();
 
 router.get('/', (req: Request, res: Response) => matchController.getMatches(req, res));
+router.route('/').post(tokenValidator, matchController.addMatch).get(matchController.getMatches);
 router.route('/:id').patch(tokenValidator, matchController.updateScoreboard);
 router.route('/:id/finish').patch(tokenValidator, matchController.setFinishMatch);
 
