@@ -1,6 +1,7 @@
 import Matches from '../database/models/matches';
 import Team from '../database/models/teams';
 import { NewMatch } from '../Interfaces/matches';
+import TeamBoard from '../models/boardModel';
 
 const config = {
   include: [
@@ -60,6 +61,49 @@ class MatchService {
     }
     const match = await Matches.create({ ...data, inProgress: true });
     return { status: 201, data: match };
+  };
+
+  public generateLeaderboardHome = async () => {
+    const teams = await Team.findAll();
+    const matches = await Matches.findAll({ ...config, where: { inProgress: false } });
+    const generalMatches: TeamBoard[] = [];
+
+    teams.forEach(({ id, teamName }) => {
+      const filteredMatches = matches
+        .filter(({ homeTeamId }) => homeTeamId === id)
+        .map(({ homeTeamGoals, awayTeamGoals }) => ({
+          goalsFavor: homeTeamGoals,
+          goalsOwn: awayTeamGoals }));
+
+      generalMatches.push(new TeamBoard(teamName, filteredMatches));
+    });
+
+    return { status: 200, data: generalMatches };
+  };
+
+  public generateLeaderBoard = async () => {
+    const teams = await Team.findAll();
+    const matches = await Matches.findAll();
+    const generalMatches: TeamBoard[] = [];
+
+    teams.forEach(({ id, teamName }) => {
+      const homeMatches = matches
+        .filter(({ homeTeamId }) => homeTeamId === id)
+        .map(({ homeTeamGoals, awayTeamGoals }) => ({
+          goalsFavor: homeTeamGoals,
+          goalsOwn: awayTeamGoals }));
+
+      const awayMatches = matches
+        .filter(({ awayTeamId }) => awayTeamId === id)
+        .map(({ homeTeamGoals, awayTeamGoals }) => ({
+          goalsFavor: awayTeamGoals,
+          goalsOwn: homeTeamGoals }));
+
+      const HomeAndAwayMatch = new TeamBoard(teamName, [...homeMatches, ...awayMatches]);
+      generalMatches.push(HomeAndAwayMatch);
+    });
+
+    return { status: 200, data: generalMatches };
   };
 }
 
