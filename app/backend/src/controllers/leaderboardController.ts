@@ -9,6 +9,12 @@ class LeaderboardController {
 
     return res.status(status).json(data);
   };
+
+  public getGeneral = async (req: Request, res: Response) => {
+    const { status, data } = await this.matchService.generateLeaderBoard();
+
+    return res.status(status).json(data);
+  };
 }
 
 export default LeaderboardController;

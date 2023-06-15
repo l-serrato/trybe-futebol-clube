@@ -61,6 +61,16 @@ class TeamBoard {
   getGoalsBalance = (): number => this.goalsFavor - this.goalsOwn;
 
   getEfficiencyTeam = () => ((this.totalPoints / (this.totalGames * 3)) * 100).toFixed(2);
+
+  static sortLeaderBoard = (teamsBoards: TeamBoard[]) =>
+    teamsBoards.sort((prevTeam, nextTeam) => {
+      let diff = nextTeam.totalPoints - prevTeam.totalPoints;
+      if (!diff) diff = nextTeam.totalVictories - prevTeam.totalVictories;
+      if (!diff) diff = nextTeam.goalsBalance - prevTeam.goalsBalance;
+      if (!diff) diff = nextTeam.goalsFavor - prevTeam.goalsFavor;
+      if (!diff) diff = nextTeam.goalsOwn - prevTeam.goalsOwn;
+      return diff;
+    });
 }
 
 export default TeamBoard;

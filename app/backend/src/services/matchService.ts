@@ -78,7 +78,7 @@ class MatchService {
       generalMatches.push(new TeamBoard(teamName, filteredMatches));
     });
 
-    return { status: 200, data: generalMatches };
+    return { status: 200, data: TeamBoard.sortLeaderBoard(generalMatches as TeamBoard[]) };
   };
 
   public generateLeaderBoard = async () => {
@@ -103,7 +103,7 @@ class MatchService {
       generalMatches.push(HomeAndAwayMatch);
     });
 
-    return { status: 200, data: generalMatches };
+    return { status: 200, data: TeamBoard.sortLeaderBoard(generalMatches as TeamBoard[]) };
   };
 }
 
