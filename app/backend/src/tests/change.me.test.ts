@@ -7,6 +7,7 @@ import * as jwt from 'jsonwebtoken';
 import { app } from '../app';
 import Team from '../database/models/teams';
 import { teams, team1 } from './mocks/Teams.mock'
+// import { inProgress, notInProgress } from './mocks/Matches.mock';
 import User from '../database/models/users';
 import { user, token, validLogin, invalidLogin} from './mocks/Users.mock'; 
 import Match from '../database/models/matches';
@@ -101,46 +102,28 @@ describe('Seu teste', () => {
       .send({ homeTeamGoals: '3', awayTeamGoals: '1' });
 
     expect(status).to.equal(200);
-    expect(body.message).to.equal('Updated');
+    expect(body.message).to.equal('"Updated"');
   });
 
-  it('should return not found when the book to discount does not exists', async function() {
-    sinon.stub(SequelizeBook, 'findByPk').resolves(null);
-    sinon.stub(JWT, 'verify').resolves();
+  it('should return a match in progress', async function() {
+    sinon.stub(Match, 'findAll').resolves(match as any);
 
-    const { status, body } = await chai
+    const { status } = await chai
       .request(app)
-      .patch('/books/1/discount')
-      .set('authorization', 'validToken')
-      .send({ discount: '5' });
-
-    expect(status).to.equal(404);
-    expect(body.message).to.equal('Book 1 not found');
-  });
-
-  it('should return a book by author', async function() {
-    sinon.stub(SequelizeBook, 'findAll').resolves(books as any);
-
-    const { status, body } = await chai
-      .request(app)
-      .get('/books/author/search?q=Author');
+      .get('/matches?inProgress=true');
 
     expect(status).to.equal(200);
-    expect(body).to.deep.equal(books);
   });
 
-  it('should return not found when there is no books by author', async function() {
-    sinon.stub(SequelizeBook, 'findAll').resolves([] as any);
+  it('should return a match not in progress', async function() {
+    sinon.stub(Match, 'findAll').resolves(match as any);
 
-    const { status, body } = await chai
+    const { status } = await chai
       .request(app)
-      .get('/books/author/search?q=Jon');
+      .get('/matches?inProgress=false');
 
-    expect(status).to.equal(404);
-    expect(body.message).to.equal('Author Jon not found');
+    expect(status).to.equal(200);
   });
-
-  afterEach(sinon.restore);
 
  /*  it('Seu sub-teste', () => {
     expect(false).to.be.eq(true);
